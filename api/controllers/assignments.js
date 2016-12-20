@@ -13,7 +13,9 @@ let commons = require('./commons');
 assignments.listAll = apiwrap((req, res, gitlab) => {
   return new Promise((resolve, reject) => {
       gitlab.projects.all((projects) => {
+        console.log("assignment row: " + JSON.stringify(projects));
         let assignments_ = assignmentsFilter.parseAssignments(projects, true, true);
+        console.log("assignment: " + JSON.stringify(assignments_));
         resolve(assignments_);
       });
     }

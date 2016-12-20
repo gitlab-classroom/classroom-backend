@@ -17,13 +17,11 @@ let session = {};
 session.login = (req, res) => {
   let username = req.swagger.params.username.value;
   let password = req.swagger.params.password.value;
-  console.log(username + ` ` + password);
-  console.log(commons.unauthObj);
   gitlab(commons.unauthObj).users.session(username, password, (ret) => {
     if (typeof ret == 'object') {
       res.writeHead(200, {
         'Content-Type': 'application/json',
-        'Set-Cookie': 'token=' + ret.private_token + '; Path=/; '
+        'Set-Cookie': 'token=' + ret.private_token + '; Path=/; ' + ''
       });
       res.write(JSON.stringify({
         'message': 'ok',

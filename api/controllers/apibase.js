@@ -22,6 +22,7 @@ let parseCookies = (cookie) => {
 apibase.apiwrap = (func) => {
   return (req, res) => {
     let cookies = parseCookies(req.swagger.params.Cookie.value);
+    console.log("cookie: " + cookies.token);
     let userGitlab = gitlab({
       url: commons.server.url,
       token: cookies.token

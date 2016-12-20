@@ -18,30 +18,247 @@ consumes:
 produces:
   - application/json
 paths:
-  /hello:
-    # binds a127 app logic to a route
-    x-swagger-router-controller: hello
+
+  /classes:
+    x-swagger-router-controller: classes
     get:
-      description: Returns 'Hello' to the caller
-      # used as the method name of the controller
-      operationId: hello
+      description: get all classes enrolled
+      operationId: listAll
       parameters:
-        - name: name
-          in: query
-          description: The name of the person to whom to say hello
-          required: false
-          type: string
+      - name: Cookie
+        in: header
+        description: token
+        type: string
+        required: true
       responses:
         "200":
           description: Success
-          schema:
-            # a pointer to a definition
-            $ref: "#/definitions/HelloWorldResponse"
-        # responses may fall through to errors
         default:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
+  /classes/{id}:
+    x-swagger-router-controller: classes
+    get:
+      description: get a specific class
+      operationId: get
+      parameters:
+      - name: id
+        in: path
+        description: class id
+        required: true
+        type: string
+      - name: Cookie
+        in: header
+        description: token
+        type: string
+        required: true
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /classes/{id}/assignments:
+    x-swagger-router-controller: classes
+    get:
+      description: get all assignments of a class
+      operationId: listAssignments
+      parameters:
+      - name: id
+        in: path
+        description: class id
+        required: true
+        type: string
+      - name: Cookie
+        in: header
+        description: token
+        type: string
+        required: true
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+    post:
+      description: create a new assignment
+      operationId: createAssignment
+      parameters:
+      - name: id
+        in: path
+        description: class id
+        required: true
+        type: string
+      - name: assignment_obj
+        in: body
+        description: assignment, deadline must be a vaild javascript date, '%2015-11-10T23:59:59Z' for example
+        required: true
+        schema:
+            $ref: "#/definitions/CreateAssignmentRequestBody"
+      - name: Cookie
+        in: header
+        description: token
+        type: string
+        required: true
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /classes/{id}/assignments/fork/{pid}:
+    x-swagger-router-controller: classes
+    post:
+      description: fork a assignment
+      operationId: forkAssignment
+      parameters:
+      - name: id
+        in: path
+        description: class id
+        required: true
+        type: string
+      - name: pid
+        in: path
+        description: the id of assignment to fork
+        required: true
+        type: string
+      - name: Cookie
+        in: header
+        description: token
+        type: string
+        required: true
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /classes/{id}/materials:
+    x-swagger-router-controller: classes
+    get:
+      description: get all materials of a class
+      operationId: listMaterials
+      parameters:
+      - name: id
+        in: path
+        description: class id
+        required: true
+        type: string
+      - name: Cookie
+        in: header
+        description: token
+        type: string
+        required: true
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /classes/{id}/members:
+    x-swagger-router-controller: classes
+    get:
+      description: get all members of a class
+      operationId: listMembers
+      parameters:
+      - name: id
+        in: path
+        description: class id
+        required: true
+        type: string
+      - name: Cookie
+        in: header
+        description: token
+        type: string
+        required: true
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /classes/{id}/notices:
+    x-swagger-router-controller: classes
+    get:
+      description: get all notices of a class
+      operationId: listNotices
+      parameters:
+      - name: id
+        in: path
+        description: class id
+        required: true
+        type: string
+      - name: Cookie
+        in: header
+        description: token
+        type: string
+        required: true
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /classes/{id}/notices/{iid}:
+    x-swagger-router-controller: classes
+    get:
+      description: get all notices of a class
+      operationId: getNotice
+      parameters:
+      - name: id
+        in: path
+        description: class id
+        required: true
+        type: string
+      - name: iid
+        in: path
+        description: notice id
+        required: true
+        type: string
+      - name: Cookie
+        in: header
+        description: token
+        type: string
+        required: true
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+  /classes/{id}/activities:
+    x-swagger-router-controller: classes
+    get:
+      description: get all activities of a class
+      operationId: listActivities
+      parameters:
+      - name: id
+        in: path
+        description: class id
+        required: true
+        type: string
+      - name: Cookie
+        in: header
+        description: token
+        type: string
+        required: true
+      responses:
+        "200":
+          description: Success
+        default:
+          description: Error
+          schema:
+            $ref: "#/definitions/ErrorResponse"
+
   /assignments:
     x-swagger-router-controller: assignments
     get:
