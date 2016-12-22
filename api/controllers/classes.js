@@ -219,5 +219,4 @@ classes.forkAssignment = apiwrap((req, res, gitlab) => {
   });
 });
 
-
 module.exports = classes;

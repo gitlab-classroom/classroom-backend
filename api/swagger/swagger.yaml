@@ -3,7 +3,7 @@ info:
   version: "0.0.1"
   title: Hello World App
 # during dev, should point to your local machine
-host: 175.186.220.45:10010
+host: 172.27.33.130:10010
 # basePath prefixes all resource paths 
 basePath: /
 # 
@@ -94,7 +94,7 @@ paths:
         type: string
       - name: assignment_obj
         in: body
-        description: assignment, deadline must be a vaild javascript date, '%2015-11-10T23:59:59Z' for example
+        description: assignment, deadline must be a vaild javascript date, '2015-11-10T23:59:59Z' for example
         required: true
         schema:
             $ref: "#/definitions/CreateAssignmentRequestBody"
@@ -138,29 +138,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /classes/{id}/materials:
-    x-swagger-router-controller: classes
-    get:
-      description: get all materials of a class
-      operationId: listMaterials
-      parameters:
-      - name: id
-        in: path
-        description: class id
-        required: true
-        type: string
-      - name: Cookie
-        in: header
-        description: token
-        type: string
-        required: true
-      responses:
-        "200":
-          description: Success
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
   /classes/{id}/members:
     x-swagger-router-controller: classes
     get:
@@ -184,81 +161,6 @@ paths:
           description: Error
           schema:
             $ref: "#/definitions/ErrorResponse"
-  /classes/{id}/notices:
-    x-swagger-router-controller: classes
-    get:
-      description: get all notices of a class
-      operationId: listNotices
-      parameters:
-      - name: id
-        in: path
-        description: class id
-        required: true
-        type: string
-      - name: Cookie
-        in: header
-        description: token
-        type: string
-        required: true
-      responses:
-        "200":
-          description: Success
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /classes/{id}/notices/{iid}:
-    x-swagger-router-controller: classes
-    get:
-      description: get all notices of a class
-      operationId: getNotice
-      parameters:
-      - name: id
-        in: path
-        description: class id
-        required: true
-        type: string
-      - name: iid
-        in: path
-        description: notice id
-        required: true
-        type: string
-      - name: Cookie
-        in: header
-        description: token
-        type: string
-        required: true
-      responses:
-        "200":
-          description: Success
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-  /classes/{id}/activities:
-    x-swagger-router-controller: classes
-    get:
-      description: get all activities of a class
-      operationId: listActivities
-      parameters:
-      - name: id
-        in: path
-        description: class id
-        required: true
-        type: string
-      - name: Cookie
-        in: header
-        description: token
-        type: string
-        required: true
-      responses:
-        "200":
-          description: Success
-        default:
-          description: Error
-          schema:
-            $ref: "#/definitions/ErrorResponse"
-
   /assignments:
     x-swagger-router-controller: assignments
     get:

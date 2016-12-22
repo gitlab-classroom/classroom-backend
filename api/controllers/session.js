@@ -1,16 +1,10 @@
 /**
  * Created by htc on 11/8/15.
  */
-
 'use strict';
 
-let https = require('https');
-
 let commons = require('./commons');
-let apiwrap = require('./apibase');
 let gitlab = require('gitlab');
-// let gitlab = require('gitlab')(commons.authObj);
-// let gitlabUnauth = require('gitlab')(commons.unauthObj);
 
 let session = {};
 
