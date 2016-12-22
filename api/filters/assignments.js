@@ -61,9 +61,17 @@ class AssignmentsFilter {
     return project;
   };
 
-  static compareAssignments(projects_all, projects){
+  static compareAssignments(projects_all, projects,members,user){
+    let role;
+    for (let member of members) {
+      if(member.username == user.username){
+        role = member.role;
+      }
+    }
+    console.log(role);
     for (let project of projects_all) {
       project.forked = false;
+      project.role = role;
       for (let my_project of projects) {
         if(my_project.name == project.name){
           project.forked = true;

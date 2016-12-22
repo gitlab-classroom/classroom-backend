@@ -45,13 +45,50 @@ classes.get = apiwrap((req, res, gitlab) => {
 
 classes.listAssignments = apiwrap((req, res, gitlab) => {
   let id = req.swagger.params.id.value;
-  return new Promise((resolve, reject) => {
+  let group = new Promise((resolve, reject) => {
+    gitlab.groups.listProjects(id, function (projects) {
+      //console.log("list projects:"+ JSON.stringify(projects));
+      resolve(assignmentsFilter.parseAssignments(projects));
+    });
+  });
+  let project = new Promise((resolve, reject) => {
+    gitlab.projects.all((projects) => {
+      //console.log("projects all:"+ JSON.stringify(projects));
+      resolve(assignmentsFilter.parseAssignments(projects));
+    });
+  });
+
+  let member = new Promise((resolve, reject) => {
+    gitlab.groups.listMembers(id, function (members) {
+      console.log(members);
+      resolve(membersFilter.parseMembers(members));
+    });
+  });
+
+  let user = new Promise((resolve, reject) => {
+    gitlab.users.current((user) => {
+      //console.log(user);
+      resolve(user);
+    });
+  });
+
+  Promise.all([group,project,member,user]).then(values => {
+    let combine = assignmentsFilter.compareAssignments(values[0],values[1],values[2],values[3]);
+    //console.log("meow" + JSON.stringify(combine));
+    return combine;
+  }).then((val)=> {
+    res.writeHead(200, {'Content-Type': 'application/json'});
+    res.write(JSON.stringify(val));
+    res.end();
+  });
+
+ /* return new Promise((resolve, reject) => {
       gitlab.groups.listProjects(id, function (projects_all) {
         gitlab.projects.all((projects) => {
           let assignments_ = assignmentsFilter.parseAssignments(projects, true, true);
-          console.log("assignment: " + JSON.stringify(assignments_));
+          //console.log("assignment: " + JSON.stringify(assignments_));
           let assignments_all = assignmentsFilter.parseAssignments(projects_all);
-          console.log("assignment all: " + JSON.stringify(assignments_all));
+          //console.log("assignment all: " + JSON.stringify(assignments_all));
           resolve(assignmentsFilter.compareAssignments(assignments_all,assignments_));
         });
       });
@@ -60,7 +97,7 @@ classes.listAssignments = apiwrap((req, res, gitlab) => {
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.write(JSON.stringify(val));
     res.end();
-  });
+  });*/
 });
 
 classes.listMaterials = apiwrap((req, res, gitlab) => {
