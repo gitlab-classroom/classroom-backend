@@ -32,6 +32,7 @@ classes.get = apiwrap((req, res, gitlab) => {
   let id = req.swagger.params.id.value;
   return new Promise((resolve, reject) => {
       gitlab.groups.show(id, function (group) {
+        console.log(group);
         resolve(classesFilter.parseClass(group));
       });
     }
@@ -45,8 +46,14 @@ classes.get = apiwrap((req, res, gitlab) => {
 classes.listAssignments = apiwrap((req, res, gitlab) => {
   let id = req.swagger.params.id.value;
   return new Promise((resolve, reject) => {
-      gitlab.groups.listProjects(id, function (projects) {
-        resolve(assignmentsFilter.parseAssignments(projects));
+      gitlab.groups.listProjects(id, function (projects_all) {
+        gitlab.projects.all((projects) => {
+          let assignments_ = assignmentsFilter.parseAssignments(projects, true, true);
+          console.log("assignment: " + JSON.stringify(assignments_));
+          let assignments_all = assignmentsFilter.parseAssignments(projects_all);
+          console.log("assignment all: " + JSON.stringify(assignments_all));
+          resolve(assignmentsFilter.compareAssignments(assignments_all,assignments_));
+        });
       });
     }
   ).then((val)=> {

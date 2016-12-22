@@ -60,6 +60,18 @@ class AssignmentsFilter {
 
     return project;
   };
+
+  static compareAssignments(projects_all, projects){
+    for (let project of projects_all) {
+      project.forked = false;
+      for (let my_project of projects) {
+        if(my_project.name == project.name){
+          project.forked = true;
+        }
+      }
+    }
+    return projects_all;
+  }
 }
 
 module.exports = AssignmentsFilter;
