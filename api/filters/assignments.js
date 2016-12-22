@@ -71,14 +71,17 @@ class AssignmentsFilter {
     console.log(role);
     for (let project of projects_all) {
       project.forked = false;
-      project.role = role;
       for (let my_project of projects) {
         if(my_project.name == project.name){
           project.forked = true;
         }
       }
     }
-    return projects_all;
+
+    return {
+      role: role,
+      assignments: projects_all
+    };
   }
 }
 
