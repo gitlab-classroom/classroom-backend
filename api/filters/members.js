@@ -14,7 +14,7 @@ class MembersFilter {
   };
 
   static parseMember(member) {
-    if (member.access_level == 20) {
+    if (member.access_level <= 20) {
       member.role = 'student';
     } else if (member.access_level > 20) {
       member.role = 'teacher';
